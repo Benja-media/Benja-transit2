@@ -1,8 +1,9 @@
 mapboxgl.accessToken = "pk.eyJ1IjoiYmVuamFtaW5tYWhlcmFsIiwiYSI6ImNrbGJnOW5hdzByMTcycHRrYW81cTRtaDMifQ.xowWxUTgoDkvBMmkE18BiQ";
+// You will need to change this to your own mapbox token.
 	const map = new mapboxgl.Map({
 		container: 'map',
 		style: "mapbox://styles/benjaminmaheral/ckya716p90ezc15o6b5fox2a0",
-		//center: [bus[0].Longitude, bus[0].Latitude],
+		// You should be able to use this style
 		//hash: true,
 		zoom: 13,
 		//preserveDrawingBuffer: true
@@ -37,13 +38,13 @@ async function start() {
 	console.log(param_stop)
 
 	const fetch_url = "https://transit.benja-products.workers.dev/mode=GetNextTripsForStop/stopNo=" + param_stop
+	// You will need to change this to your own proxy server.
 	const response = await fetch(fetch_url, {
 		method: 'GET'
 	})
 
 	const data = await response.json()
 
-	//const bus = data.GetNextTripsForStopResult.Route.RouteDirection.Trips	//const route = data.GetNextTripsForStopResult.Route.RouteDirection
 	const route = data.GetNextTripsForStopResult.Route.RouteDirection
 
 	document.getElementById("stop_name").innerHTML = "<span>" + data.GetNextTripsForStopResult.StopNo + "</span>" + data.GetNextTripsForStopResult.StopLabel + "</h3>"
@@ -230,15 +231,14 @@ function scrollFunction() {
 }
 
 function tcov(time) {
-	// Check correct time format and split into components
 	time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
 
-	if (time.length > 1) { // If time format correct
-		time = time.slice(1);  // Remove full string match value
-		time[5] = +time[0] < 12 ? ' AM' : ' PM'; // Set AM/PM
-		time[0] = +time[0] % 12 || 12; // Adjust hours
+	if (time.length > 1) { 
+		time = time.slice(1); 
+		time[5] = +time[0] < 12 ? ' AM' : ' PM'; 
+		time[0] = +time[0] % 12 || 12; 
 	}
-	return time.join(''); // return adjusted time or original string
+	return time.join(''); 
 }
 
 function pastORpresent(startTime) {
@@ -297,7 +297,7 @@ function list(item,info,data) {
 							item.Latitude
 						],
 						zoom: 15.82,
-						essential: true // this animation is considered essential with respect to prefers-reduced-motion
+						essential: true
 					});
 				})
 			} else {
@@ -319,6 +319,7 @@ function theme(data) {
 	if (data === 'sat'){
 		// Light theme
 		map.setStyle('mapbox://styles/benjaminmaheral/ckzn82c2f001414mnvmkdaybw')
+		// This is a theme I made. You can change it if you want
 		document.getElementById("theme-btn").innerHTML = '<span class="material-icons">light_mode</span>Light theme'
 		document.getElementById("theme-btn").setAttribute("onclick","theme('light')")
 		localStorage.setItem('myTheme', 'light');
@@ -327,6 +328,7 @@ function theme(data) {
 	if (data === "light"){
 		// Sat theme
 		map.setStyle('mapbox://styles/benjaminmaheral/ckya716p90ezc15o6b5fox2a0')
+		// Same here 
 		document.getElementById("theme-btn").innerHTML = '<span class="material-icons">satellite_alt</span>Satellite'
 		document.getElementById("theme-btn").setAttribute("onclick","theme('sat')")
 		localStorage.setItem('myTheme', 'sat');

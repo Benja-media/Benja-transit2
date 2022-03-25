@@ -8,6 +8,7 @@ window.onload = async function() {
 
 async function prep() {
 	const response = await fetch("/map/gtfs.json")
+	// Make sure to update this file regularly. 
 	const gtfs = await response.json()
 	const data = gtfs.Gtfs
 	//console.log(data.length)
@@ -19,12 +20,6 @@ async function prep() {
 					// Remove the loading text
 				} 
 		}
-}
-
-function trackProgress(i,length) {
-	document.getElementById("progress_bar").setAttribute("style", "width:" +(i / length) * 100 + "%")
-	console.log((i / length) * 100 + "%")
-	//document.getElementById("percent").textContent = (i / length) * 100 + "%"
 }
 
 async function search() {
