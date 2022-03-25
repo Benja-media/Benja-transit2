@@ -1,0 +1,151 @@
+body {
+  background-color: white !important ;
+	margin-left: 30px;
+}
+button {
+	font-size: 30px;
+	border-radius: 30px;
+	border: 2px solid white;
+	color: white;
+	padding: 15px;
+}
+
+.search {
+	background: #f1f1f1;
+	border-radius: 20px;
+}
+.scan {
+	background-color:#FF7700;
+}
+.id {
+	background-color:#004777;
+}
+
+.info {
+  color: #A30000;
+  font-size: 50px;
+}
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.inline {
+     vertical-align: top;
+     margin: 1px;
+   font-size: 60px !important;
+}
+
+h1 {
+  color: #004777;
+  text-align: left;
+  font-size: 120px;
+  margin: 30px;
+  font-family: 'Roboto', sans-serif
+}
+
+h2 {
+  color: #FF7700;
+  text-align: left;
+  margin: 30px;
+  font-size: 50px;
+  font-family: 'Roboto', sans-serif
+}
+h3 {
+  color: #FF7700;
+  text-align: left;
+  font-family: 'Roboto', sans-serif
+}
+
+p {
+  color: #FF7700;
+  text-align: left;
+  font-family: 'Roboto', sans-serif
+}
+
+.login-btn {
+  background-color: #E6AF2E;
+  border: none;
+  color: white;
+  padding: 5px 20px;
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  border-radius: 35px;
+  margin-bottom: 10px;
+  font-family: 'Roboto', sans-serif;
+}
+.login-btn:hover {
+    background-color: #2E8B57;
+    transition: all 1s linear;
+
+}
+
+.demo-btn {
+  background-color: #E6AF2E;
+  border: none;
+  color: white;
+  padding: 5px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  border-radius: 35px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  font-family: 'Roboto', sans-serif;
+}
+.material-icons {
+	font-size: 50px;
+}
+
+
+.logo {
+    height: 200px;
+    margin: 0 auto;
+    display: block;
+}
+
+.stp-no {  
+  border: 0px;
+  background-color: white;
+  color: #004777;
+  font-size: 60px;
+  margin-left: 40px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  caret-color: #004777;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #004777;
+  opacity: 0.5; /* Firefox */
+    font-family: 'Roboto', sans-serif;
+
+}
+input:focus {
+   outline: none;
+   }
+
+.sup-btn {
+  background-color: #7289DA;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  font-size: 20px;
+  border-radius: 35px;
+  margin: 0 auto;
+  font-family: 'Roboto', sans-serif;
+} 
+

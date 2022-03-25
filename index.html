@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--<meta http-equiv="refresh" content="0.7; URL=/map/" />-->
+<title>Benja Transit</title>
+
+<link href="/index.css" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+<meta name="keywords" content="OC TRANSPO, Ottawa, Ontario, Canada">
+<meta name="description" content="OC TRANSPO bus tracker with Stop Scan">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZPSGDWL1T1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZPSGDWL1T1');
+</script>
+
+
+</head>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="index.js"></script>
+<link href="/global.css" rel="stylesheet" />
+
+<h1 id="h1">Welcome,</h1>
+<a href="/scan/"
+<div id="scan">
+<p style="text-align:center; left:40px;"><i class="material-icons inline-icon" style="color: #FF7700;font-size:150px;">
+qr_code_scanner
+</i><br>Scan your bus sign</p>
+</div>
+</a>
+
+	<div class="search">
+<!--SEARCH-->
+		<p id="ld">Loading stops...</p>
+	<input type="text" id="search" class="stp-search" placeholder="Stop Search" autofocus onkeyup="search()" onfocus="focus()"></input>
+<p id="msg"></p> 
+<div id="result" class="result"></div>
+		</div>
+</div>
+<!-- Instal PWA -->
+<script>
+
+	window.addEventListener('load', () => {
+	registerSW();
+	});
+
+	// Register the Service Worker
+	async function registerSW() {
+	if ('serviceWorker' in navigator) {
+		try {
+		await navigator
+				.serviceWorker
+				.register('service.js');
+		}
+		catch (e) {
+		console.log('SW registration failed');
+		}
+	}
+	}
+</script>
+</body>
+</html>

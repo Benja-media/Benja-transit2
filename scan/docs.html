@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>STOP SCAN DOCS</title>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZPSGDWL1T1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZPSGDWL1T1');
+</script>
+</head>
+<body>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="style.css">
+	<h1>STOP SCAN </h1>
+	<p>Stop scan is a free web based application that reads bus signs and gives you the next bus to arive at your stop!</p>
+	<div id="htu" class="parent">
+		<h2>How to use</h2>
+		<p>Take a photo of the bus sign from about 1m away from the sign. Upload the photo of the sign and select the sign.</p>
+			<div id="examp" class="child">
+				<h3>Examples</h3>
+						<p>Will work</p>
+						<div id="good-exmp" class="gb">
+							<img id="exmp-1" src="examples/placeholder.jpg" class="exmp"></img>
+							<p>This image is nice and close & not blury. A recomended distance is about 1m (~2 steps from the sign)</p>
+							<img id="exmp-2" src="examples/1508.jpg" class="exmp"></img>
+							<p>This sign is near straight in the picture & the ID in the corner is easy to read.
+						</div>
+						<p>Won't work</p>
+						<div id="bad-exmp" class="gb">
+							<img id="exmp-3" src="examples/1486.png" class="exmp"></img>
+							<p>This image is blury. Might have a hard time reading it.</p>
+							<img id="exmp-3" src="examples/upclose.png" class="exmp"></img>
+							<p>This image has already been cropped. If you upload it the application wont let you crop it out. Also it will be hard to read the sign.
+					</div>
+				</div>
+			</div>
+	</body>
+</html>

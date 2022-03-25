@@ -1,0 +1,99 @@
+{
+	"GetNextTripsForStopResult": {
+		"StopNo": "3579",
+		"StopLabel": "KANATA \/ WALDEN",
+		"Error": "",
+		"Route": {
+			"RouteDirection": [
+				{
+					"RouteNo": "168",
+					"RouteLabel": "Terry Fox",
+					"Direction": "",
+					"Error": "",
+					"RequestProcessingTime": "20220210165542",
+					"Trips": {
+						"Trip": [
+							{
+								"Longitude": "-75.90460168747674",
+								"Latitude": "45.3274301801409",
+								"GPSSpeed": "8",
+								"TripDestination": "Terry Fox",
+								"TripStartTime": "16:32",
+								"AdjustedScheduleTime": "4",
+								"AdjustmentAge": "2.13",
+								"LastTripOfSchedule": false,
+								"BusType": ""
+							},
+							{
+								"Longitude": "",
+								"Latitude": "",
+								"GPSSpeed": "",
+								"TripDestination": "Terry Fox",
+								"TripStartTime": "17:01",
+								"AdjustedScheduleTime": "33",
+								"AdjustmentAge": "-1",
+								"LastTripOfSchedule": false,
+								"BusType": ""
+							},
+							{
+								"Longitude": "",
+								"Latitude": "",
+								"GPSSpeed": "",
+								"TripDestination": "Terry Fox",
+								"TripStartTime": "17:30",
+								"AdjustedScheduleTime": "62",
+								"AdjustmentAge": "-1",
+								"LastTripOfSchedule": false,
+								"BusType": ""
+							}
+						]
+					}
+				},
+				{
+					"RouteNo": "268",
+					"RouteLabel": "Kanata Lakes",
+					"Direction": "",
+					"Error": "",
+					"RequestProcessingTime": "20220210165542",
+					"Trips": {
+						"Trip": [
+							{
+								"Longitude": "",
+								"Latitude": "",
+								"GPSSpeed": "",
+								"TripDestination": "Kanata Lakes",
+								"TripStartTime": "16:37",
+								"AdjustedScheduleTime": "19",
+								"AdjustmentAge": "-1",
+								"LastTripOfSchedule": false,
+								"BusType": ""
+							},
+							{
+								"Longitude": "",
+								"Latitude": "",
+								"GPSSpeed": "",
+								"TripDestination": "Kanata Lakes",
+								"TripStartTime": "17:07",
+								"AdjustedScheduleTime": "49",
+								"AdjustmentAge": "-1",
+								"LastTripOfSchedule": false,
+								"BusType": ""
+							},
+							{
+								"Longitude": "",
+								"Latitude": "",
+								"GPSSpeed": "",
+								"TripDestination": "Kanata Lakes",
+								"TripStartTime": "17:42",
+								"AdjustedScheduleTime": "84",
+								"AdjustmentAge": "-1",
+								"LastTripOfSchedule": false,
+								"BusType": ""
+							}
+						]
+					}
+				}
+			]
+		}
+	}
+}

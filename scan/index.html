@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>STOP SCAN</title>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZPSGDWL1T1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZPSGDWL1T1');
+</script>
+</head>
+<script src="croppr.min.js"></script>
+<link rel="stylesheet" href="/global.css">
+<link rel="stylesheet" href="scan.css">
+
+<style>
+.imgContainer {
+    width:90%;
+    margin:30px;
+		border: 5px solid #FF7700
+		bo
+}
+
+.imgContainer img {
+    max-width: 100%;
+}
+</style>
+
+<body>
+    <h1>STOP SCAN</h1>
+		<div id="welcome" style="display:none">
+		<p id="welcome_p"></p>
+		<button id="welcome_btn">Continue</button>
+		<p id="welcome_nope" style="font-size:40px">Nope</p> 
+		</div>
+		<!-- How to use -->
+		<h2 id="htu_h2">How to use (click to expand)</h2>
+		<div id="htu_p" class="htu" style="display:none">
+			Take a photo of the bus sign from about 1m away from the sign. (<a href="example.html">Examples</a>) Upload the photo of the sign and select the sign. The placeholder is meant as an example. 
+		</div>
+		<div class="file">
+			<label class="file-upload">
+				Select Image
+				<input type="file" name="myImage" accept="image/png, image/gif, image/jpeg" onchange="imageUploaded()"></input>
+			</label>
+		</div>
+		<br>
+		<br>
+    <div class="imgContainer">
+      <img src="examples/1508.jpg" id="cropper">
+    </div>
+    <div id="cropPreview" style="display:none"></div>
+		<div id="progress" style="display:none">
+			<p id="progress_text"></p>
+				<div id="progress_bar_div" class="progress">
+					<div id="progress_bar" class="bar"></div>
+			</div>
+		</div>
+		<div id="canavs-div" style="margin:30px">
+			<canvas id="canvas" class="preview"></canvas>
+		</div>
+		<br>
+		<br>
+		<button onclick="scan()" id="scan">Scan</button>
+		<script src="index.js"></script>
+		<script src="ocr.js"></script>
+		<script src='https://unpkg.com/tesseract.js@2.1.4/dist/tesseract.min.js'></script>
+		<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	</body>
+</html>

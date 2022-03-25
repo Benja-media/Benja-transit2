@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8" />
+      <title>LOADING... | Benja Transit v2.3</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
+      <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+      <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+      <link href="map.css" rel="stylesheet" />
+      <link href="/global.css" rel="stylesheet" />
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZPSGDWL1T1"></script>
+      <script>
+         window.dataLayer = window.dataLayer || [];
+         function gtag(){dataLayer.push(arguments);}
+         gtag('js', new Date());
+         
+         gtag('config', 'G-ZPSGDWL1T1');
+         
+      </script>
+   </head>
+   <body>
+      <div id="time">
+         <h1 style="font-size: 60px;">Scheduled Arrivals</h1>
+         <button onclick="window.location.href='/'"><span class="material-icons">arrow_back</span>Back</button>
+         <div class="stop">
+            <h3 id="stop_name"></h3>
+         </div>
+         <div id="sq-times"></div>
+      </div>
+      <p id="msg" style="font-size: 20px;">Loading bus data. This should be done very soon...</p>
+      <div id="map-btns" class="map-options">
+				<button onclick="window.location.href='/'" class="option-button"><span class="material-icons">arrow_back</span>Back</button>
+      	<button onclick="window.location.href=''" class="option-button"><span class="material-icons">update</span>Reload</button>
+			  <button onclick="theme('sat')" id="theme-btn" class="option-button"><span class="material-icons">satellite_alt</span>Satellite</button>
+				<p id="api_time" class="api_msg">Still Loading API...</p>
+			</div>
+			<div id="map-cont">
+         <div id="map"></div>
+      </div>
+      <span class="material-icons top-btn" id="totop" onclick="totop()">expand_less</span>
+      <div id="footer">
+         <img src="/scan.png" class="footer-img"></img>
+      </div>
+      <script src="markers.js" defer></script>
+   </body>
+</html>
