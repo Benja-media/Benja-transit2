@@ -2,8 +2,9 @@
 <html lang="en">
    <head>
       <meta charset="utf-8" />
-      <title>Pick on map | Benja Transit v2.3</title>
+      <title>Benja Transit</title>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
+		 	<link rel="manifest" href="/home/manifest.json">
       <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" />
       <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -39,10 +40,29 @@
       </div>
       <span class="material-icons top-btn" id="totop" onclick="totop()">expand_less</span>
       <div id="footer">
-         <img src="/scan.png" class="footer-img"></img>
+         <img src="/scan/examples/scan.png" class="footer-img"></img>
       </div>
       <script src="map/cluster.js" defer></script>
 		  <!--<script src="/home/search.js" defer></script>-->
+<script>
 
+	window.addEventListener('load', () => {
+	registerSW();
+	});
+
+	// Register the Service Worker
+	async function registerSW() {
+	if ('serviceWorker' in navigator) {
+		try {
+		await navigator
+				.serviceWorker
+				.register('home/service.js');
+		}
+		catch (e) {
+		console.log('SW registration failed');
+		}
+	}
+	}
+</script>
    </body>
 </html>
