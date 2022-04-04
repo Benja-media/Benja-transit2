@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Benja Transit</title>
+
+<link href="home/index.css" rel="stylesheet">
+<link rel="manifest" href="/home/manifest.json">
+<meta name="keywords" content="OC TRANSPO, Ottawa, Ontario, Canada">
+<meta name="description" content="OC TRANSPO bus tracker with Stop Scan">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZPSGDWL1T1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZPSGDWL1T1');
+</script>
+
+
+</head>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="home/index.js"></script>
+<link href="global.css" rel="stylesheet" />
+
+<h1 id="h1">Welcome,</h1>
+	<div class="group">
+	<div class="in-group">
+
+<a href="/scan/">
+
+<div id="scan">
+<p style="text-align:center; left:40px;"><i class="material-icons inline-icon" style="color: #FF7700;font-size:150px;">
+qr_code_scanner
+</i><br>StopScan</p>
+</div>
+</a>
+</div>
+	<div class="in-group">
+
+<a href="/map/pick.html">
+
+<div id="scan">
+<p style="text-align:center; left:40px;"><i class="material-icons inline-icon" style="color: #FF7700;font-size:150px;">
+explore
+</i><br>Pick on a map</p>
+</div>
+</a>
+</div>
+	</div>
+	<div class="search">
+<!--SEARCH-->
+		<p id="ld">Loading stops...</p>
+	<input type="text" id="search" class="stp-search" placeholder="Stop Search" autofocus onkeyup="search()" onfocus="focus()"></input>
+<p id="msg"></p> 
+<div id="result" class="result"></div>
+		</div>
+<!-- Instal PWA -->
+<script>
+
+	window.addEventListener('load', () => {
+	registerSW();
+	});
+
+	// Register the Service Worker
+	async function registerSW() {
+	if ('serviceWorker' in navigator) {
+		try {
+		await navigator
+				.serviceWorker
+				.register('home/service.js');
+		}
+		catch (e) {
+		console.log('SW registration failed');
+		}
+	}
+	}
+</script>
+	<footer>
+		<h2>Updates!</h2>
+		<p></p>
+	</footer>
+</body>
+</html>

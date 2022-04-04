@@ -23,7 +23,7 @@ async function prep() {
 }
 
 async function search() {
-	const input = document.getElementById("search").value.replace("&","/").replace(","," / ")
+	const input = document.getElementById("lookup").value.replace("&","/").replace(","," / ")
 	const result = document.getElementById("result")
 	result.innerHTML = ""
 
@@ -35,7 +35,7 @@ async function search() {
 				console.log(stops[i].stop_name + " (" + stops[i].stop_code + ")")
 				var p = document.createElement("p")
 				p.innerHTML = "<span>" + stops[i].stop_code + "</span> " + stops[i].stop_name.replace("/","&")
-				document.getElementById("msg").innerHTML = ""
+				//document.getElementById("msg").innerHTML = ""
 				p.setAttribute("stop_code", stops[i].stop_code)
 				p.setAttribute("stop_name", stops[i].stop_name)
 				p.addEventListener("click", function () {

@@ -17,7 +17,7 @@ button {
   text-align: center;
 }
 .map-options {
-	margin-left: 30px;
+	margin-left: 2.5%;
 	overflow-y: auto
 }
 .option-button {
@@ -37,7 +37,7 @@ h1 {
   color: #004777;
   text-align: left;
   font-size: 120px;
-  margin: 30px;
+  margin: 2.5%;
   font-family: 'Roboto', sans-serif
 }
 
@@ -68,11 +68,11 @@ a:hover {
 }
 
 p {
-	font-size: 50px;
-  color: #FF7700;
-  text-align: left;
-  font-family: 'Roboto', sans-serif;
-	margin: 30px;
+	font-size: 25px;
+	color: #FF7700;
+	text-align: left;
+	font-family: 'Roboto', sans-serif;
+	margin: 2.5%;
 }
 .htu {
   color: #FF7700;
@@ -103,14 +103,14 @@ h2 span {
     color: white;
 		font-family: 'Roboto', sans-serif;
 }
-p span { 
-    background-color: #004777; 
+p span {
+    background-color: #004777;
     border: 2px solid #004777;
-    border-radius: 15px;
-    padding: 10px;
+    border-radius: 10px;
+    padding: 5px;
     font-weight: bolder;
     color: white;
-		font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .gps {
