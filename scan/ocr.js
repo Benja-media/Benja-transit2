@@ -96,7 +96,7 @@ async function redir(stop) {
 		var confirm = document.getElementsByClassName("swal-button--confirm");
 		confirm[0].addEventListener("click",function() {
 			
-			window.location.href = "/map/splash.html?stop=" + stop
+			window.location.href = "/map/?stop=" + stop
 			localStorage.setItem('stop_code',stop );
 			localStorage.setItem("stop_name",stop_name)
 			});
