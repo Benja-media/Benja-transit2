@@ -165,6 +165,7 @@ input:focus{
 }
 #sq-times p {
 	font-size: 20px;
+	margin-left: 30px !important;
 	margin-top: 0px;
 }
 .api_msg {
