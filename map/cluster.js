@@ -1,3 +1,28 @@
+const stops = []
+const nearby = []
+
+window.onload = function() {
+	//start()
+	checkLocal()
+	prep()
+}
+
+async function prep() {
+	const fetch_url = "/map/gtfs.json"
+	// You will need to change this to your own proxy server.
+	const response = await fetch(fetch_url, {
+		method: 'GET'
+	})
+
+	const data = await response.json()
+	const marker = data.Gtfs
+	console.log(marker.length)
+	for (var i = 0; i < marker.length; i++) {
+		stops.push(marker[i])
+		}
+	document.getElementById("loader").remove()
+}
+
 mapboxgl.accessToken = "pk.eyJ1IjoiYmVuamFtaW5tYWhlcmFsIiwiYSI6ImNrbGJnOW5hdzByMTcycHRrYW81cTRtaDMifQ.xowWxUTgoDkvBMmkE18BiQ";
 // You will need to change this to your own mapbox token.
 	const map = new mapboxgl.Map({
@@ -11,7 +36,56 @@ mapboxgl.accessToken = "pk.eyJ1IjoiYmVuamFtaW5tYWhlcmFsIiwiYSI6ImNrbGJnOW5hdzByM
 		zoom: 14,
 	});
 
-function locate() {navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);}
+function locate() {
+	const msg = document.getElementById("msg")
+	const p = document.createElement("p")
+	p.innerHTML = '<i class="material-icons">near_me</i>Cool! Enable location to see close by stops!'
+	
+	msg.appendChild(p)
+	navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+}
+
+map.on('click', (e) => {
+		console.log(e.lngLat.lng, e.lngLat.lat)
+	
+// Remove other location pins
+			const locs = Array.from(document.getElementsByClassName('location'));
+			const latitude = e.lngLat.lat
+			const longitude = e.lngLat.lng
+			locs.forEach(loc => {
+  			loc.remove();
+			});
+    // create the marker
+			const el = document.createElement('div');
+				el.className = 'location';
+				new mapboxgl.Marker(el)
+					.setLngLat([e.lngLat.lng, e.lngLat.lat])
+			.addTo(map);
+  	const marker = stops
+		for (var i = 0; i < marker.length; i++) { 
+			const lngth = distance(latitude.toString(),marker[i].stop_lat,longitude.toString(),marker[i].stop_lon).toString().split(".")
+			if (lngth[0] === "0") {
+				if (document.querySelectorAll('[code="' + marker[i].stop_code +'"]').length === 0) {
+					createExtMarker(marker[i])
+				} else {
+					console.log("Duplicate detected: " + marker[i].stop_code)
+				}
+			}
+		}
+	});
+
+function cleanup() {
+	console.log("Clear")
+		const locs = Array.from(document.getElementsByClassName('location'));
+		locs.forEach(loc => {
+  		loc.remove();
+		});
+
+		const markers = Array.from(document.getElementsByClassName('marker'));
+		markers.forEach(marker => {
+  		marker.remove();
+		});
+}
 
 
 var geoOptions = {
@@ -21,6 +95,7 @@ var geoOptions = {
 };
 
 function geoSuccess(pos) {
+	document.getElementById("msg").remove()
   var crd = pos.coords;
 	
   console.log('Your current position is:');
@@ -45,31 +120,6 @@ function geoSuccess(pos) {
 
 	// long -1 (-)
   console.log(`More or less ${crd.accuracy} meters.`);
-}
-const stops = []
-const nearby = []
-
-/* ON LOAD TRIGER OUR FUNCTION */
-window.onload = function() {
-	//start()
-	checkLocal()
-	prep()
-	document.getElementById("loader").remove()
-}
-
-async function prep() {
-	const fetch_url = "/map/gtfs.json"
-	// You will need to change this to your own proxy server.
-	const response = await fetch(fetch_url, {
-		method: 'GET'
-	})
-
-	const data = await response.json()
-	const marker = data.Gtfs
-	console.log(marker.length)
-	for (var i = 0; i < marker.length; i++) {
-		stops.push(marker[i])
-		}
 }
 
    function distance(lat1,lat2, lon1, lon2){
@@ -139,7 +189,7 @@ function launch(element) {
 }
 function geoError(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
-	alert("Location is turned off...")
+	document.getElementById("msg").innerHTML = '<p><i class="material-icons">near_me_disabled</i>Ooops! Error getting your location! Is is allowed? (Try Clicking on the map on your location to see nearby stops!)</p>'
 }
 
 
