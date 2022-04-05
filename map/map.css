@@ -166,7 +166,9 @@ input:focus{
 .mapboxgl-popup-close-button:focus {
 	outline: none;
 }
-
+i:disabled {
+	
+}
 .mapboxgl-popup-close-button {
 	border: 0px !important;
 }

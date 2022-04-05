@@ -7,8 +7,8 @@ mapboxgl.accessToken = "pk.eyJ1IjoiYmVuamFtaW5tYWhlcmFsIiwiYSI6ImNrbGJnOW5hdzByM
 		hash: true,
 		zoom: 18,
 		cluster: true,
-		center: [-75.309, 45.089],
-		zoom: 6.83
+		center: [-75.6678, 45.3996],
+		zoom: 14,
 	});
 
 function locate() {navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);}
@@ -47,11 +47,14 @@ function geoSuccess(pos) {
   console.log(`More or less ${crd.accuracy} meters.`);
 }
 const stops = []
+const nearby = []
+
 /* ON LOAD TRIGER OUR FUNCTION */
 window.onload = function() {
 	//start()
 	checkLocal()
 	prep()
+	document.getElementById("loader").remove()
 }
 
 async function prep() {
@@ -63,6 +66,7 @@ async function prep() {
 
 	const data = await response.json()
 	const marker = data.Gtfs
+	console.log(marker.length)
 	for (var i = 0; i < marker.length; i++) {
 		stops.push(marker[i])
 		}
@@ -96,29 +100,39 @@ async function prep() {
 
 async function addMarker(latitude,longitude){	
 
+	if (nearby.length === 0) {
 const marker = stops;
 	for (var i = 0; i < marker.length; i++) { 
-		console.log(i)
-			const length = distance(latitude.toString(),marker[i].stop_lat,longitude.toString(),marker[i].stop_lon).toString().split(".")
-			if ( length[0] === "0") {
+		const length = distance(latitude.toString(),marker[i].stop_lat,longitude.toString(),marker[i].stop_lon).toString().split(".")
+			if (length[0] === "0") {
+				nearby.push(marker[i])
+					// if distance is under 1 KM add to map. 
 				console.log(length[0])
-		const el = document.createElement('div');
-					el.className = 'marker';
-					el.setAttribute("code",marker[i].stop_code)
-			
-				new mapboxgl.Marker(el)
-					.setLngLat([marker[i].stop_lon, marker[i].stop_lat])
-					.setPopup(
-						new mapboxgl.Popup({ offset: 25 }) // add popups
-							.setHTML(
-								"<p>" + marker[i].stop_name + "</p><button onclick='launch(this)' code='" + marker[i].stop_code + "'>Track</button>"
-							)
-					)
-			.addTo(map);
-		} 
-	} 
+				createExtMarker(marker[i])
+			} 
+		}	 
+	} else {
+			for (var i = 0; i < nearby.length; i++) { 
+				createExtMarker(nearby[i])
+		}
+	}
 }
 
+function createExtMarker(data) {
+	const el = document.createElement('div');
+	el.className = 'marker';
+	el.setAttribute("code",data.stop_code)
+				
+		new mapboxgl.Marker(el)
+			.setLngLat([data.stop_lon, data.stop_lat])
+			.setPopup(
+				new mapboxgl.Popup({ offset: 25 }) // add popups
+					.setHTML(
+						"<p>" + data.stop_name + "</p><button onclick='launch(this)' code='" + data.stop_code + "'>Track</button>"
+						)
+				)
+		.addTo(map);
+}
 function launch(element) {
 	console.log(element.getAttribute("code"))
 	window.location.href = "/map/?stop=" + element.getAttribute("code")

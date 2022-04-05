@@ -28,9 +28,10 @@
       </div>
 		 <div id="center-cont">
 		<div id="search">
-		 <input id="lookup" placeholder="Search for a stop" autofocus onkeyup="search()" onfocus="focus()"></input><i onclick="locate()" class="material-icons">near_me</i><i onclick="window.location.href = '/scan'" class="material-icons">photo_camera</i>
+		 <input id="lookup" placeholder="Search for a stop" autofocus onkeyup="search()" onfocus="focus()"></input><i onclick="locate()" class="material-icons" id="locate_btn">near_me</i><i onclick="window.location.href = '/scan'" class="material-icons">photo_camera</i>
 		</div>
-		 </div>
+			 <p id="loader"><i onclick="locate()" class="material-icons" id="locate_btn">pending</i>Loading stops...</p></div>
+	
 		 <div id="result"></div>
       <div id="map-btns" class="map-options">
 			  <button onclick="theme('sat')" id="theme-btn" class="option-button"><span class="material-icons">satellite_alt</span>Satellite</button>

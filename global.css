@@ -68,11 +68,16 @@ a:hover {
 }
 
 p {
-	font-size: 25px;
+	/* font-size: 25px; */
 	color: #FF7700;
 	text-align: left;
 	font-family: 'Roboto', sans-serif;
-	margin: 2.5%;
+	margin-left: 2.5%;
+	/*line-height: 50% !important;*/
+}
+
+#loader {
+	line-height: 50%;
 }
 .htu {
   color: #FF7700;
@@ -89,7 +94,6 @@ h2 {
 }
 p {
 	line-height: 200%;
-
 }
 #sq-times {
 	font-size: 40px;
