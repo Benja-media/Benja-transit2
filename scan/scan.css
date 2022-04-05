@@ -69,7 +69,9 @@ button {
   z-index: 1;
   cursor: crosshair;
 }
-
+#welcome_p {
+	font-size: 50px;
+}
 .croppr-region {
   position: absolute;
 	border: 5px dashed #FF7700;
