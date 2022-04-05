@@ -56,12 +56,13 @@ body {
 	cursor: pointer;
 }
 .location {
-	background-color: #004777;
 	background-size: cover;
-	width: 20px;
-	height: 20px;
+	width: 10px;
+	border: 3px solid #004777;
+	height: 10px;
 	border-radius: 50%;
 	cursor: pointer;
+	background: white;
 }
 
 .mapboxgl-popup {
@@ -101,7 +102,13 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-
+.mapboxgl-popup-content button {
+	margin-left: 0px;
+	border: 2px solid;
+}
+.mapboxgl-popup-content button:focus {
+	outline: none;
+}
 .mapboxgl-popup-content h3 {
 	color: #FF7700;
   text-align: left;
@@ -112,11 +119,10 @@ body {
 }
 .mapboxgl-popup-content p {
 	font-size: 20px;
-  color: #FF7700;
-  text-align: center;
-  font-family: 'Roboto', sans-serif;
-  margin: 10px;
-
+	color: #FF7700;
+	text-align: center;
+	font-family: 'Roboto', sans-serif;
+	/* margin: 10px; */
 }
 
 .stop {
@@ -157,7 +163,13 @@ input:focus{
     font-family: 'Roboto', sans-serif;
 
 }
+.mapboxgl-popup-close-button:focus {
+	outline: none;
+}
 
+.mapboxgl-popup-close-button {
+	border: 0px !important;
+}
 #center-cont{
     /* display: grid; */
     /* place-items: center; */

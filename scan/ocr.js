@@ -97,6 +97,7 @@ async function redir(stop) {
 		confirm[0].addEventListener("click",function() {
 			
 			window.location.href = "/map/?stop=" + stop
+			//Cache error here (sometimes)
 			localStorage.setItem('stop_code',stop );
 			localStorage.setItem("stop_name",stop_name)
 			});

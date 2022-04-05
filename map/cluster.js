@@ -22,19 +22,16 @@ var geoOptions = {
 
 function geoSuccess(pos) {
   var crd = pos.coords;
-
+	
   console.log('Your current position is:');
   console.log(`Latitude : ${crd.latitude}`);
-	console.log(crd.latitude.toString().substring(0,5))
   console.log(`Longitude: ${crd.longitude}`);
-	console.log(crd.longitude.toString().substring(0,4))
-	
-	addMarker(crd.latitude.toString().substring(0,4),crd.longitude.toString().substring(0,3))
+	addMarker(crd.latitude,crd.longitude)
+	console.log("Adding markers...")
 // longitude -1
-// 5,4 Less 6,5 more
+// 5,4 Less 6,5 more!
 				const el = document.createElement('div');
 				el.className = 'location';
-				
 				new mapboxgl.Marker(el)
 					.setLngLat([crd.longitude, crd.latitude])
 					.setPopup(
@@ -70,12 +67,42 @@ async function prep() {
 		stops.push(marker[i])
 		}
 }
-async function addMarker(latitude,longitude){
 
-const marker = stops
+   function distance(lat1,lat2, lon1, lon2){
+   
+        // The math module contains a function
+        // named toRadians which converts from
+        // degrees to radians.
+        lon1 =  lon1 * Math.PI / 180;
+        lon2 = lon2 * Math.PI / 180;
+        lat1 = lat1 * Math.PI / 180;
+        lat2 = lat2 * Math.PI / 180;
+   
+        // Haversine formula
+        let dlon = lon2 - lon1;
+        let dlat = lat2 - lat1;
+        let a = Math.pow(Math.sin(dlat / 2), 2)
+                 + Math.cos(lat1) * Math.cos(lat2)
+                 * Math.pow(Math.sin(dlon / 2),2);
+               
+        let c = 2 * Math.asin(Math.sqrt(a));
+   
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        let r = 6371;
+        // calculate the result
+        return(c * r);
+    }
+
+async function addMarker(latitude,longitude){	
+
+const marker = stops;
 	for (var i = 0; i < marker.length; i++) { 
-		if (marker[i].stop_lat.includes(latitude) && marker[i].stop_lon.includes(longitude)) {
-				const el = document.createElement('div');
+		console.log(i)
+			const length = distance(latitude.toString(),marker[i].stop_lat,longitude.toString(),marker[i].stop_lon).toString().split(".")
+			if ( length[0] === "0") {
+				console.log(length[0])
+		const el = document.createElement('div');
 					el.className = 'marker';
 					el.setAttribute("code",marker[i].stop_code)
 			
@@ -84,7 +111,7 @@ const marker = stops
 					.setPopup(
 						new mapboxgl.Popup({ offset: 25 }) // add popups
 							.setHTML(
-								"<p>" + marker[i].stop_name + "</p><button style='margin-left: 0px;'onclick='launch(this)' code='" + marker[i].stop_code + "'>Track</button>"
+								"<p>" + marker[i].stop_name + "</p><button onclick='launch(this)' code='" + marker[i].stop_code + "'>Track</button>"
 							)
 					)
 			.addTo(map);
@@ -181,17 +208,16 @@ async function search() {
 	const input = document.getElementById("lookup").value.replace("&","/").replace(","," / ")
 	const result = document.getElementById("result")
 	result.innerHTML = ""
-const markers = Array.from(document.getElementsByClassName('marker'));
+	// Delete markers.
+	const markers = Array.from(document.getElementsByClassName('marker'));
 
 	markers.forEach(marker => {
   	marker.remove();
 	});
 
-	
-	if (isN(input) === false) {
-		// Check if it is a string for search
 		for (var i = 0; i < stops.length; i++) {
-			if (stops[i].stop_name.includes(input.toUpperCase()) && input.length > 3 && stops[i].stop_code != "" ) {
+			if (input.length > 3 && stops[i].stop_code != "") {
+			if (stops[i].stop_name.includes(input.toUpperCase()) || stops[i].stop_code.includes(input) ) {
 
 				console.log(stops[i].stop_name + " (" + stops[i].stop_code + ")")
 				var p = document.createElement("p")
@@ -220,30 +246,4 @@ const markers = Array.from(document.getElementsByClassName('marker'));
 			}
 		}
 	}
-	
-	if (isN(input) === true) {
-		// Check if it is a string for search
-		for (var i = 0; i < stops.length; i++) {
-
-			if (stops[i].stop_code.includes(input)) {
-				document.getElementById("msg").innerHTML = ""
-				var p = document.createElement("p")
-				p.innerHTML = stops[i].stop_name + " " + stops[i].stop_code
-				p.setAttribute("stop_code", stops[i].stop_code)
-				p.setAttribute("stop_name", stops[i].stop_name)
-				p.addEventListener("click", function () {
-					var input = document.getElementById("search")
-					input.value = p.getAttribute("stop_name") + " (" + p.getAttribute("stop_code") + ")"
-					window.location.href = "/map/?stop=" + p.getAttribute("stop_code")
-				})
-				document.getElementById("result").appendChild(p)
-			}
-		}
-	}
-	console.log(input)
-}
-
-function isN(req) {
-	var res = /1|2|3|4|5|6|7|8|9/.test(req);
-	return res
 }
