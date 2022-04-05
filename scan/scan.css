@@ -72,6 +72,10 @@ button {
 #welcome_p {
 	font-size: 50px;
 }
+
+#progress_text {
+	font-size: 50px
+}
 .croppr-region {
   position: absolute;
 	border: 5px dashed #FF7700;

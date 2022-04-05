@@ -14,3 +14,13 @@ The API feed has the same reliability as the busses themselves ;) Expect downtim
 
 # GTFS. 
 Update the GTFS feed regularly. 
+
+# Credits!
+
+This application contains awesome Open Source software! 
+Here are some of the awesome projects that helped Benja Transit Become what it is!
+
+* [Sweet Alert](https://github.com/t4t5/sweetalert)
+* [Croppr.js](https://github.com/jamesssooi/Croppr.js)
+* [Tesseract.js](https://github.com/naptha/tesseract.js)
+* [Cors4Json](https://github.com/Benjamin-del/Cors4Json)
