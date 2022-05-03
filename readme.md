@@ -24,3 +24,12 @@ Here are some of the awesome projects that helped Benja Transit Become what it i
 * [Croppr.js](https://github.com/jamesssooi/Croppr.js)
 * [Tesseract.js](https://github.com/naptha/tesseract.js)
 * [Cors4Json](https://github.com/Benjamin-del/Cors4Json)
+
+
+### BETA
+
+Do you want to try the beta version of Benja Transit?
+
+You can try out new features before they are released here: 
+
+[Benja Transit Beta](https://transit.beta.benja.ml/)

@@ -23,7 +23,7 @@ async function prep() {
 	document.getElementById("loader").remove()
 }
 
-mapboxgl.accessToken = "pk.eyJ1IjoiYmVuamFtaW5tYWhlcmFsIiwiYSI6ImNrbGJnOW5hdzByMTcycHRrYW81cTRtaDMifQ.xowWxUTgoDkvBMmkE18BiQ";
+mapboxgl.accessToken = "pk.eyJ1IjoiYmVuamFtaW5tYWhlcmFsIiwiYSI6ImNsMnFrbzJ1NjBhMGMzZXF2MXRqZjl2amoifQ.JEEcIMHMtYGXczwNb7GRRA";
 // You will need to change this to your own mapbox token.
 	const map = new mapboxgl.Map({
 		container: 'map',
