@@ -1,95 +1,183 @@
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
+    font-family: 'Nunito Sans', sans-serif !important;
 }
+
 .arrival {
-	  font-size: 20px;
+    font-size: 20px;
     color: #FF7700;
     text-align: left;
     font-family: 'Roboto', sans-serif;
-		margin: 0;
+    margin: 0;
     margin-left: 30px;
 }
 
 body {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    color: #FF7700;
+    background: transparent;
+    border: 2px solid #FF7700;
+    font-size: 16px;
+    padding-inline: 10px; border-radius: 20px;
+}
+
+.option-button {
+    color: #FF7700;
+    background: transparent;
+    border: 2px solid #FF7700;
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: 'Nunito Sans';
+    padding-inline: 10px; border-radius: 25px;
+    margin-left: 0px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.gps {
+    vertical-align: bottom;
+    font-size: 40px !important;
+}
+
+button .material-icons {
+    /* font-size: 20px; */
+    vertical-align: -6px;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.material-icons {
+    vertical-align: -4px;
+    /* padding: 4px; */
+}
+
+.inline-icon {
+    vertical-align: bottom;
+}
+
+h1 {
+    color: #004777;
+    text-align: left;
+    font-size: 120px;
+    margin: 2.5%;
+}
+
+h2 {
+    color: #FF7700;
+    text-align: left;
+    /* margin: 30px; */
+    font-size: 50px;
+    font-family: 'Roboto', sans-serif
+}
+
+h3 {
+    color: #004777;
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+    margin: 30px;
+}
+
+h2 span {
+    background-color: #004777;
+    border: 2px solid #004777;
+    border-radius: 15px;
+    padding: 5px;
+    margin-top: 5px;
+    font-weight: bolder;
+    color: white;
+    font-family: 'Roboto', sans-serif;
 }
 
 .list {
     font-size: 20px;
-		margin: 30px;
+    margin: 30px;
     margin-bottom: 10px;
 }
+
 .span-route {
-	padding: 5px;
+    padding: 5px;
     border-radius: 10px;
 }
 
 #map {
-	position: relative;
-	width: 100%;
-	height: 700px;
-	border-top: 3px solid #FF7700;
-	border-bottom: 3px solid #FF7700
+    position: relative;
+    width: 100%;
+    height: 700px;
+    border-top: 3px solid #FF7700;
+    border-bottom: 3px solid #FF7700
 }
+
 #lookup {
-	width: 70%;
-	margin-bottom: 10px;
-	font-size: 2rem;
-	background: none;
-	border: 0px solid;
-	border-bottom: 2px solid #004777;
-	color: #004777;
-	font-family: roboto;
+    width: 70%;
+    margin-bottom: 10px;
+    font-size: 2rem;
+    background: none;
+    border: 0px solid;
+    border-bottom: 2px solid #004777;
+    color: #004777;
+    font-family: 'Nunito Sans', sans-serif;
 }
-#search {/* width: 100%; */margin-left: 2.5%;color: #004777;}
+
+#search {
+    /* width: 100%; */
+    margin-left: 2.5%;
+    color: #004777;
+}
+
 #time {
-	position: relative;
-	top: 0px;
+    position: relative;
+    top: 0px;
 }
+
 .marker {
-	background-image: url('/image.png');
-	background-size: cover;
-	width: 30px;
-	height: 30px;
-	border-radius: 50%;
-	cursor: pointer;
+    background-image: url('/image.png');
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
 }
+
 .location {
-	background-size: cover;
-	width: 10px;
-	border: 3px solid #004777;
-	height: 10px;
-	border-radius: 50%;
-	cursor: pointer;
-	background: white;
+    background-size: cover;
+    width: 10px;
+    border: 3px solid #004777;
+    height: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: white;
 }
 
 .mapboxgl-popup {
-	max-width: 200px;
+    max-width: 200px;
 }
 
 .mapboxgl-popup-content {
-	text-align: center;
-	font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    font: 12px/20px 'Nunito Sans', sans-serif !IMPORTANT;
+    font-family: 'Nunito Sans';
 }
 
 .footer-img {
-	width: 80%;	
-	height: auto;
+    width: 70%;
+    height: auto;
 }
 
 .top-btn {
-	position: fixed;
-  bottom: 20px;
-  right: 20px;
-	width: auto;
-	font-size: 50px !important;
-	color: #FF7700;
-	border: 3px solid #FF7700;
-	background-color: transparent;
-	border-radius: 50px;
-	}
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: auto;
+    font-size: 50px !important;
+    color: #FF7700;
+    border: 3px solid #FF7700;
+    background-color: transparent;
+    border-radius: 50px;
+}
 
 .mapboxgl-popup-content h3 span {
     background-color: #004777;
@@ -103,89 +191,160 @@ body {
 }
 
 .mapboxgl-popup-content button {
-	margin-left: 0px;
-	border: 2px solid;
+    margin-left: 0px;
+    border: 2px solid;
 }
+
 .mapboxgl-popup-content button:focus {
-	outline: none;
+    outline: none;
 }
+
 .mapboxgl-popup-content h3 {
-	color: #FF7700;
-  text-align: left;
-  font-family: 'Roboto', sans-serif;
-  margin: 10px;
-  font-size: 20px;
-	line-height: 150%;
+    color: #FF7700;
+    text-align: left;
+    font-family: Roboto;
+    margin: 10px;
+    font-size: 20px;
+    line-height: 150%;
 }
+
 .mapboxgl-popup-content p {
-	font-size: 20px;
-	color: #FF7700;
-	text-align: center;
-	font-family: 'Roboto', sans-serif;
-	/* margin: 10px; */
+    font-size: 16px;
+    color: #FF7700;
+    text-align: center;
+    font-family: 'Nunito Sans';
+    margin: 10px;
 }
 
 .stop {
-	margin: 20px;
+    margin: 2.5%;
 }
+
 .stop h3 span {
-  background-color: #FF7700;
-  border: 2px solid #FF7700;
-  border-radius: 7px;
-  padding: 2px;
-  font-weight: bolder;
-  color: white;
-  margin-right: 5px;
-  font-family: 'Roboto', sans-serif;
+    background-color: #FF7700;
+    border: 2px solid #FF7700;
+    border-radius: 7px;
+    padding: 2px;
+    font-weight: bolder;
+    color: white;
+    margin-right: 5px;
+    font-family: 'Roboto', sans-serif;
 }
 
 .stop h3 {
-	color: #004777;
-  text-align: left;
-  font-family: 'Roboto', sans-serif;
-  margin: 10px;
-  font-size: 20px;
-	line-height: 150%;
+    color: #004777;
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+    margin: 0px;
+    /* margin-left: 2%; */
+    font-size: 20px;
+    line-height: 150%;
 }
 
 #sq-times h2 {
-	font-size: 40px;
-  margin-bottom: 0px;
+    font-size: 40px;
 }
-input:focus{
+
+input:focus {
     outline: none;
-		border-bottom: 2px solid #FF7700
+    border-bottom: 2px solid #FF7700
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: #004777;
-  opacity: 0.5; /* Firefox */
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #004777;
+    opacity: 0.5;
+    /* Firefox */
     font-family: 'Roboto', sans-serif;
+}
 
-}
 .mapboxgl-popup-close-button:focus {
-	outline: none;
+    outline: none;
 }
+
 i:disabled {
-	
 }
+
 .mapboxgl-popup-close-button {
-	border: 0px !important;
+    border: 0px !important;
 }
-#center-cont{
+
+#center-cont {
     /* display: grid; */
     /* place-items: center; */
     /* color: #004777; */
 }
+
 #sq-times p {
-	font-size: 20px;
-	margin-left: 30px !important;
-	margin-top: 0px;
+    font-size: 20px;
+    margin-left: 0px!important;
+    margin-top: 0px;
 }
+
 .api_msg {
     font-size: 15px;
     color: #004777;
     text-align: center;
     display: inline;
     margin: 10px;
+}
+
+p#msg {
+    text-align: center;
+}
+
+div#msg-div {
+    text-align: center;
+}
+
+button#back {
+    color: #FF7700;
+    background: transparent;
+    border: 2px solid #FF7700;
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: 'Nunito Sans';
+    padding-inline: 10px; border-radius: 25px;
+    margin-left: 2%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+p {
+    line-height: 200%;
+    color: #FF7700;
+    text-align: left;
+    margin-left: 2.5%;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+.rt-cont {
+    padding-top: 0.1px;
+    margin-left: 2.5%;
+    margin-bottom: 2%;
+    border-radius: 10px 0px 0px 10px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #FF7700;
+    border-radius: 5px;
+}
+
+p .material-icons {
+    padding: 4px;
+}
+
+div#map-btns {
+    margin-left: 2%;
 }

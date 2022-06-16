@@ -19,9 +19,27 @@ function getUrlVars() {
 	return vars;
 }
 /* ON LOAD TRIGER OUR FUNCTION */
-window.onload = function() {
-	start()
-	checkLocal()
+window.onload = async function() {
+	try {
+	await start()
+	//await checkLocal()
+	} catch (e) {
+		console.log(e)
+		document.getElementById("map-cont").remove()
+		document.getElementById("map-btns").remove()
+		document.getElementById("back").remove()
+		document.getElementById("msg").textContent = "Whoops... Error fetching data..."
+		//  <button id="back" onclick="window.location.href='/'"><span class="material-icons">arrow_back</span>Back</button>
+		
+		const msg_div = document.getElementById("msg-div")
+		const button = document.createElement("button")
+		button.setAttribute("onclick","window.location.href='/'")
+		button.innerHTML = '<span class="material-icons">close</span>Cancel'
+		msg_div.appendChild(button)
+		return
+	}
+	document.getElementById("loading").remove()
+	document.getElementById("main-body").removeAttribute("style")
 }
 
 function past(data){
@@ -42,9 +60,10 @@ async function start() {
 	const response = await fetch(fetch_url, {
 		method: 'GET'
 	})
+	
 
 	const data = await response.json()
-
+	console.log(data)
 	const route = data.GetNextTripsForStopResult.Route.RouteDirection
 
 	document.getElementById("stop_name").innerHTML = "<span>" + data.GetNextTripsForStopResult.StopNo + "</span>" + data.GetNextTripsForStopResult.StopLabel + "</h3>"
@@ -277,6 +296,7 @@ function list(item,info,data) {
 		console.log(item.AdjustedScheduleTime)
 			const main = document.getElementById("sq-times")
 			const div = document.createElement("div")
+			div.setAttribute("class","rt-cont")
 			const h2 = document.createElement("h2")
 			const p = document.createElement("p")
 			//Time
@@ -315,8 +335,12 @@ function mapShot(){
 	console.error("MapShot() has been disabled for performance reasons.")
 	return "ERR"
 }
+theme(localStorage.getItem("myTheme"))
 function theme(data) {
-	if (data === 'sat'){
+	
+	console.log("Theme " + data)
+	console.log(localStorage.getItem("myTheme"))
+	if (data === 'dark'){
 		// Light theme
 		map.setStyle('mapbox://styles/benjaminmaheral/ckzn82c2f001414mnvmkdaybw')
 		// This is a theme I made. You can change it if you want
@@ -330,19 +354,8 @@ function theme(data) {
 		map.setStyle('mapbox://styles/benjaminmaheral/ckya716p90ezc15o6b5fox2a0')
 		// Same here 
 		document.getElementById("theme-btn").innerHTML = '<span class="material-icons">satellite_alt</span>Satellite'
-		document.getElementById("theme-btn").setAttribute("onclick","theme('sat')")
-		localStorage.setItem('myTheme', 'sat');
+		document.getElementById("theme-btn").setAttribute("onclick","theme('dark')")
+		localStorage.setItem('myTheme', 'light');
 		document.body.setAttribute("style","background-color: white !important")
-
 	} 
-}
-
-function checkLocal(){
-	const local = localStorage.getItem("myTheme")
-	console.log(local)
-	if (local !== null){
-		console.log(local)
-		console.log("Welcome back user")
-		theme(local)
-	}
 }

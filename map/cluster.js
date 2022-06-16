@@ -1,313 +1,292 @@
 const stops = []
 const nearby = []
-
+var geojson = []
 window.onload = function() {
-	//start()
-	checkLocal()
 	prep()
 }
-
-async function prep() {
-	const fetch_url = "/map/gtfs.json"
-	// You will need to change this to your own proxy server.
-	const response = await fetch(fetch_url, {
-		method: 'GET'
-	})
-
-	const data = await response.json()
-	const marker = data.Gtfs
-	console.log(marker.length)
-	for (var i = 0; i < marker.length; i++) {
-		stops.push(marker[i])
-		}
-	document.getElementById("loader").remove()
-}
-
 mapboxgl.accessToken = "pk.eyJ1IjoiYmVuamFtaW5tYWhlcmFsIiwiYSI6ImNsMnFrbzJ1NjBhMGMzZXF2MXRqZjl2amoifQ.JEEcIMHMtYGXczwNb7GRRA";
 // You will need to change this to your own mapbox token.
-	const map = new mapboxgl.Map({
-		container: 'map',
-		style: "mapbox://styles/benjaminmaheral/ckya716p90ezc15o6b5fox2a0",
-		// You should be able to use this style
-		hash: true,
-		zoom: 18,
-		cluster: true,
-		center: [-75.6678, 45.3996],
-		zoom: 14,
-	});
-
-function locate() {
-	const msg = document.getElementById("msg")
-	const p = document.createElement("p")
-	p.innerHTML = '<i class="material-icons">near_me</i>Cool! Enable location to see close by stops!'
-	
-	msg.appendChild(p)
-	navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: "mapbox://styles/benjaminmaheral/ckya716p90ezc15o6b5fox2a0",
+    // You should be able to use this style
+    hash: true,
+    zoom: 18,
+    cluster: true,
+    center: [-75.6678, 45.3996],
+    zoom: 14,
+});
+async function prep() {
+	const request = await fetch("map/geo_stops.json") 
+	const response = await request.json()
+	const items = response.features
+	for (var i = 0; i < items.length; i++){
+		stops.push({
+			geo: 	items[i].geometry.coordinates,
+			name: items[i].properties.name,
+			code: items[i].properties.code
+		})
+	}	
+	console.log(stops)
 }
 
-map.on('click', (e) => {
-		console.log(e.lngLat.lng, e.lngLat.lat)
-	
-// Remove other location pins
-			const locs = Array.from(document.getElementsByClassName('location'));
-			const latitude = e.lngLat.lat
-			const longitude = e.lngLat.lng
-			locs.forEach(loc => {
-  			loc.remove();
-			});
-    // create the marker
-			const el = document.createElement('div');
-				el.className = 'location';
-				new mapboxgl.Marker(el)
-					.setLngLat([e.lngLat.lng, e.lngLat.lat])
-			.addTo(map);
-  	const marker = stops
-		for (var i = 0; i < marker.length; i++) { 
-			const lngth = distance(latitude.toString(),marker[i].stop_lat,longitude.toString(),marker[i].stop_lon).toString().split(".")
-			if (lngth[0] === "0") {
-				if (document.querySelectorAll('[code="' + marker[i].stop_code +'"]').length === 0) {
-					createExtMarker(marker[i])
-				} else {
-					console.log("Duplicate detected: " + marker[i].stop_code)
-				}
-			}
-		}
-	});
+map.on('load', function() {
+    map.addSource('stops', {
+        type: 'geojson',
+        data: 'map/geo_stops.json',
+        cluster: true,
+        clusterMaxZoom: 14,
+        // Max zoom to cluster points on
+        clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+    });
+	createLayers()
+})
+function createLayers() {
+	console.log("Creating layers...")
+		console.log("Map Loaded!")
+    map.addLayer({
+        id: 'stops_cluster',
+        type: 'circle',
+        source: 'stops',
+        filter: ['has', 'point_count'],
+        paint: {
+            'circle-color': ['step', ['get', 'point_count'], '#004777', 100, '#FF7700', 750, '#A30000'],
+            'circle-radius': ['step', ['get', 'point_count'], 20, 100, 30, 750, 40]
+        }
+    });
 
-function cleanup() {
-	console.log("Clear")
-		const locs = Array.from(document.getElementsByClassName('location'));
-		locs.forEach(loc => {
-  		loc.remove();
-		});
+    map.addLayer({
+        id: 'stop_count',
+        type: 'symbol',
+        source: 'stops',
+        filter: ['has', 'point_count'],
+        layout: {
+            'text-field': '{point_count_abbreviated}',
+            'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+            'text-size': 12
+        },
+			  paint: {
+    		"text-color": "#ffffff"
+  		}
+    });
 
-		const markers = Array.from(document.getElementsByClassName('marker'));
-		markers.forEach(marker => {
-  		marker.remove();
-		});
+    map.addLayer({
+        id: 'stop_id',
+        type: 'symbol',
+        source: 'stops',
+        filter: ['!', ['has', 'point_count']],
+				layout: {
+					"text-field":["get","code"],
+					"text-offset": [0,1.5],
+					"text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+
+				},
+        paint: {
+            'text-color': "#004777",
+        }
+    });
+		map.addLayer({
+        id: 'single_stop',
+        type: 'circle',
+        source: 'stops',
+        filter: ['!', ['has', 'point_count']],
+				paint: {
+					  'circle-radius': 7,
+   					'circle-color': '#004777',
+					}
+    		});
+
+    console.log("Added")
+}
+map.on('click', 'stops_cluster', (e)=>{
+    const features = map.queryRenderedFeatures(e.point, {
+        layers: ['stops_cluster']
+    });
+    const clusterId = features[0].properties.cluster_id;
+    map.getSource('stops').getClusterExpansionZoom(clusterId, (err,zoom)=>{
+        if (err)
+            return;
+
+        map.easeTo({
+            center: features[0].geometry.coordinates,
+            zoom: zoom
+        });
+    }
+    );
+}
+);
+
+map.on('click', 'single_stop', (e)=>{
+    const coordinates = e.features[0].geometry.coordinates.slice();
+
+    // Ensure that if the map is zoomed out such that
+    // multiple copies of the feature are visible, the
+    // popup appears over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    new mapboxgl.Popup().setLngLat(coordinates).setHTML(`<p>${e.features[0].properties.name}</p><button onclick=launch(this) code="${e.features[0].properties.code}">Track</button>`).addTo(map);
+}
+);
+function locate() {
+    navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
 }
 
 
 var geoOptions = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0
 };
 
 function geoSuccess(pos) {
-	document.getElementById("msg").remove()
-  var crd = pos.coords;
-	
-  console.log('Your current position is:');
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude: ${crd.longitude}`);
-	addMarker(crd.latitude,crd.longitude)
-	console.log("Adding markers...")
-// longitude -1
-// 5,4 Less 6,5 more!
-				const el = document.createElement('div');
-				el.className = 'location';
-				new mapboxgl.Marker(el)
-					.setLngLat([crd.longitude, crd.latitude])
-					.setPopup(
-						new mapboxgl.Popup({ offset: 25 }) // add popups
-							.setHTML(
-								"<p>Your location</p>"
-							)
-					)
-			.addTo(map);
-			map.flyTo({center: [crd.longitude, crd.latitude], zoom: 15});
+    var crd = pos.coords;
 
-	// long -1 (-)
-  console.log(`More or less ${crd.accuracy} meters.`);
+    console.log('Your current position is:');
+    console.log(`Latitude : ${crd.latitude}`);
+    console.log(`Longitude: ${crd.longitude}`);
+    
+    const el = document.createElement('div');
+    el.className = 'location';
+    new mapboxgl.Marker(el).setLngLat([crd.longitude, crd.latitude]).setPopup(new mapboxgl.Popup({
+        offset: 25
+    })// add popups
+    .setHTML("<p>Your location</p>")).addTo(map);
+    map.flyTo({
+        center: [crd.longitude, crd.latitude],
+        zoom: 15
+    });
+    console.log(`More or less ${crd.accuracy} meters.`);
 }
 
-   function distance(lat1,lat2, lon1, lon2){
-   
-        // The math module contains a function
-        // named toRadians which converts from
-        // degrees to radians.
-        lon1 =  lon1 * Math.PI / 180;
-        lon2 = lon2 * Math.PI / 180;
-        lat1 = lat1 * Math.PI / 180;
-        lat2 = lat2 * Math.PI / 180;
-   
-        // Haversine formula
-        let dlon = lon2 - lon1;
-        let dlat = lat2 - lat1;
-        let a = Math.pow(Math.sin(dlat / 2), 2)
-                 + Math.cos(lat1) * Math.cos(lat2)
-                 * Math.pow(Math.sin(dlon / 2),2);
-               
-        let c = 2 * Math.asin(Math.sqrt(a));
-   
-        // Radius of earth in kilometers. Use 3956
-        // for miles
-        let r = 6371;
-        // calculate the result
-        return(c * r);
-    }
-
-async function addMarker(latitude,longitude){	
-
-	if (nearby.length === 0) {
-const marker = stops;
-	for (var i = 0; i < marker.length; i++) { 
-		const length = distance(latitude.toString(),marker[i].stop_lat,longitude.toString(),marker[i].stop_lon).toString().split(".")
-			if (length[0] === "0") {
-				nearby.push(marker[i])
-					// if distance is under 1 KM add to map. 
-				console.log(length[0])
-				createExtMarker(marker[i])
-			} 
-		}	 
-	} else {
-			for (var i = 0; i < nearby.length; i++) { 
-				createExtMarker(nearby[i])
-		}
-	}
-}
 
 function createExtMarker(data) {
-	const el = document.createElement('div');
-	el.className = 'marker';
-	el.setAttribute("code",data.stop_code)
-				
-		new mapboxgl.Marker(el)
-			.setLngLat([data.stop_lon, data.stop_lat])
-			.setPopup(
-				new mapboxgl.Popup({ offset: 25 }) // add popups
-					.setHTML(
-						"<p>" + data.stop_name + "</p><button onclick='launch(this)' code='" + data.stop_code + "'>Track</button>"
-						)
-				)
-		.addTo(map);
+	console.log("EXT")
+    const el = document.createElement('div');
+    el.className = 'marker';
+    el.setAttribute("code", data.stop_code)
+
+    new mapboxgl.Marker(el).setLngLat([data.stop_lon, data.stop_lat]).setPopup(new mapboxgl.Popup({
+        offset: 25
+    })// add popups
+    .setHTML("<p>" + data.stop_name + "</p><button onclick='launch(this)' code='" + data.stop_code + "'>Track</button>")).addTo(map);
 }
 function launch(element) {
-	console.log(element.getAttribute("code"))
-	window.location.href = "/map/?stop=" + element.getAttribute("code")
+    console.log(element.getAttribute("code"))
+    window.location.href = "/map/?stop=" + element.getAttribute("code")
 }
 function geoError(err) {
-  console.warn(`ERROR(${err.code}): ${err.message}`);
-	document.getElementById("msg").innerHTML = '<p><i class="material-icons">near_me_disabled</i>Ooops! Error getting your location! Is is allowed? (Try Clicking on the map on your location to see nearby stops!)</p>'
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+    document.getElementById("msg").innerHTML = '<p><i class="material-icons">near_me_disabled</i>Ooops! Error getting your location! Is is allowed? (Try Clicking on the map on your location to see nearby stops!)</p>'
 }
 
-
-function check(){
-	const mrk = document.getElementsByClassName("marker");
-	console.log(length)
-	console.log("LENGTH: " + mrk.length)
-		if (mrk.length === 0 || mrk.length === "0") {
-			console.log("HIDDEN")
-			document.getElementById("msg").textContent = "Aww snap... No GPS data!"
-			document.getElementById("map").setAttribute("style","display:none")
-			document.getElementById("map-btns").setAttribute("style","display:none")
-		} else if (mrk.length === 1 || mrk.length === "1") {
-			document.getElementById("map").removeAttribute("style")
-			document.getElementById("map-btns").removeAttribute("style")
-			document.getElementById("msg").textContent = "Yes! Map is able to load!"
-			const lat1 = mrk[0].getAttribute("lat")
-			const lon1 = mrk[0].getAttribute("long")
-			map.jumpTo({
-				center: [lon1, lat1],
-				zoom: 15.8
-			});
-		}
+function check() {
+    const mrk = document.getElementsByClassName("marker");
+	
+    console.log(length)
+    console.log("LENGTH: " + mrk.length)
+    if (mrk.length === 0 || mrk.length === "0") {
+        console.log("HIDDEN")
+        document.getElementById("msg").textContent = "Aww snap... No GPS data!"
+        document.getElementById("map").setAttribute("style", "display:none")
+        document.getElementById("map-btns").setAttribute("style", "display:none")
+    } else if (mrk.length === 1 || mrk.length === "1") {
+        document.getElementById("map").removeAttribute("style")
+        document.getElementById("map-btns").removeAttribute("style")
+        document.getElementById("msg").textContent = "Yes! Map is able to load!"
+        const lat1 = mrk[0].getAttribute("lat")
+        const lon1 = mrk[0].getAttribute("long")
+        map.jumpTo({
+            center: [lon1, lat1],
+            zoom: 15.8
+        });
+    }
 }
 
 function totop() {
-	document.body.scrollTop = 0; // For Safari
-	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    document.body.scrollTop = 0;
+    // For Safari
+    document.documentElement.scrollTop = 0;
+    // For Chrome, Firefox, IE and Opera
 }
 
-window.onscroll = function () { scrollFunction() };
+window.onscroll = function() {
+    scrollFunction()
+}
+;
 const topbtn = document.getElementById("totop")
 topbtn.style.display = "none";
 
 function scrollFunction() {
-	if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-		topbtn.style.display = "block";
-	} else {
-		topbtn.style.display = "none";
-	}
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        topbtn.style.display = "block";
+    } else {
+        topbtn.style.display = "none";
+    }
 }
 
-function theme(data) {
-	if (data === 'sat'){
-		// Light theme
-		map.setStyle('mapbox://styles/benjaminmaheral/ckzn82c2f001414mnvmkdaybw')
-		// This is a theme I made. You can change it if you want
-		document.getElementById("theme-btn").innerHTML = '<span class="material-icons">light_mode</span>Light theme'
-		document.getElementById("theme-btn").setAttribute("onclick","theme('light')")
-		localStorage.setItem('myTheme', 'light');
-		document.body.setAttribute("style","background-color: #040810 !important")
-	}
-	if (data === "light"){
-		// Sat theme
-		map.setStyle('mapbox://styles/benjaminmaheral/ckya716p90ezc15o6b5fox2a0')
-		// Same here 
-		document.getElementById("theme-btn").innerHTML = '<span class="material-icons">satellite_alt</span>Satellite'
-		document.getElementById("theme-btn").setAttribute("onclick","theme('sat')")
-		localStorage.setItem('myTheme', 'sat');
-		document.body.setAttribute("style","background-color: white !important")
+theme(localStorage.getItem("myTheme"),"onload")
+function theme(data,trigger) {
 
-	} 
+	console.log(data)
+    if (data === 'dark') {
+        // Light theme
+        map.setStyle('mapbox://styles/benjaminmaheral/ckzn82c2f001414mnvmkdaybw')
+        // This is a theme I made. 	You can change it if you want
+        document.getElementById("theme-btn").innerHTML = '<span class="material-icons">light_mode</span>Light theme'
+        document.getElementById("theme-btn").setAttribute("onclick", "theme('light')")
+        localStorage.setItem('myTheme', 'dark');
+        document.body.setAttribute("style", "background-color: #040810 !important")
+    }
+    if (data === "light") {
+        // Sat theme
+        map.setStyle('mapbox://styles/benjaminmaheral/ckya716p90ezc15o6b5fox2a0')
+        // Same here 
+        document.getElementById("theme-btn").innerHTML = '<span class="material-icons">satellite_alt</span>Satellite'
+        document.getElementById("theme-btn").setAttribute("onclick", "theme('dark')")
+        localStorage.setItem('myTheme', 'light');
+        document.body.setAttribute("style", "background-color: white !important")
+    }
+		if (trigger !== "onload") {
+			console.log('Removing Layers')
+			location.reload()
+		}
 }
-
-function checkLocal(){
-	const local = localStorage.getItem("myTheme")
-	console.log(local)
-	if (local !== null){
-		console.log(local)
-		console.log("Welcome back user")
-		theme(local)
-	}
-}
-
 
 // From search.js
 
-
 async function search() {
-	const input = document.getElementById("lookup").value.replace("&","/").replace(","," / ")
-	const result = document.getElementById("result")
-	result.innerHTML = ""
-	// Delete markers.
-	const markers = Array.from(document.getElementsByClassName('marker'));
+		console.log("Search")
+    const input = document.getElementById("lookup").value.replace("&", "/").replace(",", " / ")
+    const result = document.getElementById("result")
+    result.innerHTML = ""
+    // Delete markers.
+    const markers = Array.from(document.getElementsByClassName('marker'));
 
-	markers.forEach(marker => {
-  	marker.remove();
-	});
+    markers.forEach(marker=>{
+        marker.remove();
+    }
+    );
 
-		for (var i = 0; i < stops.length; i++) {
-			if (input.length > 3 && stops[i].stop_code != "") {
-			if (stops[i].stop_name.includes(input.toUpperCase()) || stops[i].stop_code.includes(input) ) {
+    for (var i = 0; i < stops.length; i++) {
+        if (input.length > 3 && stops[i].stop_code != "") {
+            if (stops[i].name.includes(input.toUpperCase()) || stops[i].code.includes(input)) {
+								console.log(stops[i].name + " (" + stops[i].code + ")")
+                var p = document.createElement("p")
+                p.innerHTML = "<span>" + stops[i].code + "</span> " + stops[i].name.replace("/", "&")
+                //document.getElementById("msg").innerHTML = ""
+                p.setAttribute("stop_code", stops[i].code)
+                p.setAttribute("stop_name", stops[i].name)
+                p.addEventListener("click", function() {
+                    window.location.href = "/map/?stop=" + this.getAttribute("stop_code")
+                })
+                result.appendChild(p)
 
-				console.log(stops[i].stop_name + " (" + stops[i].stop_code + ")")
-				var p = document.createElement("p")
-				p.innerHTML = "<span>" + stops[i].stop_code + "</span> " + stops[i].stop_name.replace("/","&")
-				//document.getElementById("msg").innerHTML = ""
-				p.setAttribute("stop_code", stops[i].stop_code)
-				p.setAttribute("stop_name", stops[i].stop_name)
-				p.addEventListener("click", function () {
-					window.location.href = "/map/?stop=" + this.getAttribute("stop_code")
-				})
-				result.appendChild(p)
-
-				const el = document.createElement('div');
-					el.className = 'marker';
-					el.setAttribute("code", stops[i].stop_code)
-			
-				new mapboxgl.Marker(el)
-					.setLngLat([stops[i].stop_lon, stops[i].stop_lat])
-					.setPopup(
-						new mapboxgl.Popup({ offset: 25 }) // add popups
-							.setHTML(
-								"<p>" + stops[i].stop_name + "</p><button style='margin-left: 0px;'onclick='launch(this)' code='" + stops[i].stop_code + "'>Track</button>"
-							)
-					)
-			.addTo(map);
-			}
-		}
-	}
+                const el = document.createElement('div');
+                el.className = 'marker';
+                el.setAttribute("code", stops[i].code)
+            }
+        }
+    }
 }

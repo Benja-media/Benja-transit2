@@ -22,14 +22,12 @@ input[type="file"] {
 button {
     font-size: 50px;
     text-align: center;
-		background: white;
     border: 4px solid #FF7700;
     color: #FF7700;
-    padding: 12px;
-    border-radius: 5px;
+    padding-inline: 20px;
+    border-radius: 50px;
     cursor: pointer;
-    display: block;
-    margin-left: 30px;
+    display: inline;
 } 
 
 /* CROPPR */
@@ -71,6 +69,7 @@ button {
 }
 #welcome_p {
 	font-size: 50px;
+	margin: 0px;
 }
 
 #progress_text {
@@ -231,4 +230,11 @@ button {
     margin: 0;
     font-size: 40px;
     cursor: pointer;
+}
+
+div#welcome {
+    background: #ededed;
+    margin: 10px;
+    padding: 25px;
+    border-radius: 25px;
 }
