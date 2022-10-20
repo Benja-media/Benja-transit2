@@ -299,10 +299,9 @@ function list(item,info,data) {
 			div.setAttribute("class","rt-cont")
 			const h2 = document.createElement("h2")
 			const p = document.createElement("p")
-			//Time
 	
 			h2.innerHTML = "<span>" + info.number + "</span> " + info.name
-			p.innerHTML = "Arriving in: " + item.AdjustedScheduleTime + " mins (" + item.TripStartTime + ")"
+			p.innerHTML = "Arriving in: " + item.AdjustedScheduleTime + " mins (Starts at " + item.TripStartTime + ")"
 		
 	
 			if (item.Longitude !== "") {
