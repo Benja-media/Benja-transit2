@@ -302,7 +302,7 @@ function list(item,info,data) {
 			//Time
 	
 			h2.innerHTML = "<span>" + info.number + "</span> " + info.name
-			p.innerHTML = "Arriving in: " + item.AdjustedScheduleTime + " mins"
+			p.innerHTML = "Arriving in: " + item.AdjustedScheduleTime + " mins (" + item.TripStartTime + ")"
 		
 	
 			if (item.Longitude !== "") {
