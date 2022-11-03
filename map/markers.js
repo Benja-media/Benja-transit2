@@ -192,3 +192,28 @@ function gicon(name) {
 function totop() {
 	window.scrollTo(0,0);
 }
+
+theme(localStorage.getItem("myTheme"))
+function theme(data) {
+	
+	console.log("Theme " + data)
+	console.log(localStorage.getItem("myTheme"))
+	if (data === 'dark'){
+		// Light theme
+		map.setStyle('mapbox://styles/benjaminmaheral/ckzn82c2f001414mnvmkdaybw')
+		// This is a theme I made. You can change it if you want
+		document.getElementById("theme-btn").innerHTML = '<span class="material-icons">light_mode</span>Light theme'
+		document.getElementById("theme-btn").setAttribute("onclick","theme('light')")
+		localStorage.setItem('myTheme', 'light');
+		document.body.setAttribute("style","background-color: #040810 !important")
+	}
+	if (data === "light"){
+		// Sat theme
+		map.setStyle('mapbox://styles/benjaminmaheral/ckya716p90ezc15o6b5fox2a0')
+		// Same here 
+		document.getElementById("theme-btn").innerHTML = '<span class="material-icons">satellite_alt</span>Satellite'
+		document.getElementById("theme-btn").setAttribute("onclick","theme('dark')")
+		localStorage.setItem('myTheme', 'light');
+		document.body.setAttribute("style","background-color: white !important")
+	} 
+}
