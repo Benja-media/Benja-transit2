@@ -86,6 +86,7 @@ h2 span {
     border: 2px solid #004777;
     border-radius: 15px;
     padding: 5px;
+    margin-right: 10px;
     margin-top: 5px;
     font-weight: bolder;
     color: white;
@@ -347,4 +348,37 @@ p .material-icons {
 
 div#map-btns {
     margin-left: 2%;
+}
+
+h3 span {
+    color: white;
+    background: #004777;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+
+.inner_route {
+    margin: 2.5%;
+}
+
+.inner_route h3 {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.inner_route_attr i {
+    color: #FF7700;
+}
+
+.inner_route_attr {
+}
+
+div#sq-times {
+    margin: 2.5%;
+}
+
+.inner_route_attr p {
+    display: inline;
+    padding-left: 10px;
 }
