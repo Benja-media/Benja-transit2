@@ -88,10 +88,14 @@ async function start() {
 		elem.appendChild(timepar)
 		document.getElementById("sq-times").appendChild(elem)
 
+	}
 		const markers = document.getElementsByClassName("marker")
-		if (markers.length !== 0) {
+		console.log(markers.length)
+
+		if (markers.length != 0) {
+			console.log("LENGTH!")
 			console.log(markers[0].getAttribute("long"))
-			//document.getElementById("msg").remove()
+			document.getElementById("msg").remove()
 			const now = new Date()
 			document.getElementById("api_time").innerHTML = "Last updated at " + now.getHours() + ":" + now.getMinutes() 
 
@@ -99,12 +103,13 @@ async function start() {
 				center: [Number(markers[0].getAttribute("long")), Number(markers[0].getAttribute("lat"))],
 				zoom: 14,
 			});
-		} else if (markers.length === 0) {
+		} else {
+			console.log("No GPS!")
 			document.getElementById("msg").textContent = "No GPS data."
 			document.getElementById("map-cont").remove()
 			document.getElementById("map-btns").remove()
 		}
-	}
+	
 }
 
 function times(data,route,no) {
@@ -112,11 +117,17 @@ function times(data,route,no) {
 	main.setAttribute("class","route")
 
 		for (var i = 0; i < data.length; i++) {
+			//Parent Element
 			const par = document.createElement("div")
 			par.setAttribute("class","inner_route")
+
+			//A element
+			const a = document.createElement("a")
+			a.setAttribute("onclick","panmap(" + data[i].geo.toString() + ")")
+			
+			//Trip Info
 			const sign = document.createElement("h3")
 			var d = new Date(data[i].schedule.date_obj);
-			
 			var mins = d.getMinutes().toString()
 
 			if (mins.length === 1) {
@@ -124,9 +135,11 @@ function times(data,route,no) {
 			}
 			sign.innerHTML = "<span>" + data[i].destination + "</span> Arriving at: " + d.getHours() + ':' + mins;
 			
+			//Features
 			const ft = document.createElement("div")
 			ft.setAttribute("class","inner_route_attr")
-			if (data[i].gps_status === true) {
+			if (data[i].gps_status) {
+				//If GPS is ON 
 				ft.appendChild(gicon("navigation"))
 
 				const el = document.createElement('div');
@@ -136,7 +149,7 @@ function times(data,route,no) {
 				el.className = 'marker';
 				el.setAttribute("data_id", i)
 
-
+				// Create Marker
 				new mapboxgl.Marker(el)
 					.setLngLat(data[i].geo)
 					.setPopup(
@@ -148,15 +161,18 @@ function times(data,route,no) {
 					.addTo(map);
 				
 			} else {
+				// GPS is not ON
 				ft.appendChild(gicon("location_disabled"))
 			}
 			const ft_p = document.createElement("p")
-
-			if (data[i].trip.trip_start === true) {
+		
+			if (data[i].trip.trip_start) {
+				//If Trip has started
 				ft.appendChild(gicon("alarm_on"))
 				ft_p.innerHTML = data[i].schedule.form_mins + " Mins | Departed at " + data[i].trip.start_time
 				ft.appendChild(ft_p)
 			} else {
+				// If trip has not started
 				ft.appendChild(gicon("alarm_off"))
 				ft_p.innerHTML = data[i].schedule.form_mins + " Mins | Departs at " + data[i].trip.start_time + " (Scheduled)"
 				ft.appendChild(ft_p)
@@ -164,7 +180,8 @@ function times(data,route,no) {
 			
 			par.appendChild(sign)
 			par.appendChild(ft)
-			main.appendChild(par)
+			a.appendChild(par)
+			main.appendChild(a)
 		}
 	return main.innerHTML
 }
@@ -216,4 +233,17 @@ function theme(data) {
 		localStorage.setItem('myTheme', 'light');
 		document.body.setAttribute("style","background-color: white !important")
 	} 
+}
+
+function panmap(long,lat) {
+	if (long !== 0) {
+		const mapel = document.getElementById("map");
+		mapel.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+
+		map.flyTo({
+			center: [long,lat],
+			zoom: map.getZoom() + 1,
+		});
+		
+	}
 }
