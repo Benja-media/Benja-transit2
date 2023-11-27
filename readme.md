@@ -1,3 +1,6 @@
+# DEPRECATED!
+This project has been archived and is no longer maintained. Please see Benja-Transit for an updated version
+
 # Benja Transit
 Benja transit is a free open source transit tracker. I only have a version for use in ottawa.
 
